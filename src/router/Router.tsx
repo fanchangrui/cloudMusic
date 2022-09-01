@@ -30,7 +30,7 @@ export const Router = () => {
     // window.location.pathname = '/app/findMusic'
   }
   return (
-    <BrowserRouter basename="/app" >
+    <BrowserRouter basename="/" >
       <InnerRouter />
     </BrowserRouter>
   )

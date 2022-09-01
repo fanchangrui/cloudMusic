@@ -7,7 +7,7 @@ export default defineConfig({
   base: "./",  //生产环境下的资源公共路径
   server: {
     host:true,
-    port: 3001,
+    port: 3000,
     hmr: {
       overlay: false
     }
