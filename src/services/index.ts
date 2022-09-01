@@ -2,7 +2,7 @@ import axios, { Method } from 'axios';
 
 // 环境的切换
 if (import.meta.env.DEV) {
-  axios.defaults.baseURL = 'https://netease-cloud-music-api-phi-six-49.vercel.app/';
+  axios.defaults.baseURL = 'http://localhost:4000/';
 } else if (import.meta.env.PROD) {
   axios.defaults.baseURL = 'https://netease-cloud-music-api-phi-six-49.vercel.app/';
 }
