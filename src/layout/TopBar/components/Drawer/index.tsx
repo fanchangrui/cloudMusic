@@ -88,7 +88,7 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
         <div className={styles.draweProfileBox}>
           <img src={avatarUrl} className="mask mask-circle w-28" />
           <div className='flex items-center space-x-2'>
-            <span className='font-bold'>薛定谔的猫猫虫</span>
+            <span className='font-bold'>余生</span>
             {
               true ? <Male theme="outline" size="22" fill="#4a90e2" />
                 :

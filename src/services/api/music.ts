@@ -5,7 +5,7 @@ import { post, get } from '../index';
  * @param id 音乐id
  */
 function getMusic(id: number) {
-  return get("/song/url", { id });
+  return get("/song/url", { id,realIP:'116.25.146.177' });
 }
 
 /**

@@ -2,7 +2,8 @@ import axios, { Method } from 'axios';
 
 // 环境的切换
 if (import.meta.env.DEV) {
-  axios.defaults.baseURL = 'http://localhost:4000/';
+  /* axios.defaults.baseURL = 'http://localhost:4000/'; */
+  axios.defaults.baseURL = 'https://netease-cloud-music-api-phi-six-49.vercel.app/'
 } else if (import.meta.env.PROD) {
   axios.defaults.baseURL = 'https://netease-cloud-music-api-phi-six-49.vercel.app/';
 }
@@ -99,7 +100,7 @@ axios.interceptors.response.use(
 export function get(url: string, params: any) {
   return new Promise((resolve, reject) => {
     axios.get(url, {
-      params: params
+      params: params 
     })
       .then(res => {
         resolve(res.data);

@@ -64,7 +64,7 @@ const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
         </div>
         {
           isLogin ?
-            <span className="ml-2 mr-1">薛定谔的猫猫虫</span>
+            <span className="ml-2 mr-1">余生</span>
             :
             <button className="btn btn-sm btn-ghost ml-2" onClick={() => { dispatch({ type: 'setShowLoginBox', payload: true }) }}>
               未登录

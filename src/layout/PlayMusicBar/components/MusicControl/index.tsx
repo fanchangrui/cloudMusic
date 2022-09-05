@@ -89,8 +89,9 @@ const MusicControl: FunctionComponent<MusicControlProps> = () => {
     lyric.stop(); // 停止歌词
     // 获取歌曲的url
     getMusic(state.playSoundId!).then((res: any) => {
-      setMusicUrl(res.data[0].url); 
-      console.log(111,res.data[0].url);
+      
+      setMusicUrl(res.data[0].url);
+      console.log(111,res);
       
     })
     // 获取歌词数据
