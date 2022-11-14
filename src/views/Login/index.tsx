@@ -42,6 +42,7 @@ export default function Login() {
           <Key className='absolute ml-2' theme="outline" size="18" fill="#bdb5b5" />
         </div>
         <button className='btn btn-accent text-lg text-white btn-md'>登录</button>
+        <img src={qrimg} alt="" className={styles.imgpo}/>
         <div className="px-1 mt-3 w-max card ">
           <div className="form-control">
             <label className="cursor-pointer label space-x-2">
@@ -50,7 +51,7 @@ export default function Login() {
             </label>
           </div>
         </div>
-        <img src={qrimg} alt="" />
+       
       </div>
       {/* 登录方式 */}
       <div className='flex justify-between mt-3 pl-7'>

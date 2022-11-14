@@ -16,3 +16,9 @@
 .inputItem input {
   @apply input h-10  input-bordered w-full pl-8 text-white
 }
+
+.imgpo {
+  position:absolute;
+  left: 100px;
+  top: 148px;
+}
