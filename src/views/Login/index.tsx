@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect ,useState} from 'react'
 import styles from './index.module.css';
 import loginBgUrl from '~/assets/images/login-bg.svg';
 import qrCodeUrl from '~/assets/images/qr-code.svg';
@@ -8,17 +8,21 @@ import emailIconUrl from '~/assets/images/wyyx-icon.svg';
 import { Close, Phone, Key } from '@icon-park/react';
 // ********************************************************** 导入组件和hooks
 import { useAppContext } from '~/context/AppContext'
+import {  qrKey,qrCreate,qrCheck } from '~/services/api/user';
 import { useRequest } from 'ahooks'
 import { cellphoneLogin, getUserDetails } from '~/services/api/user'
 export default function Login() {
   const { state, dispatch } = useAppContext();
-
+  const [loginKey, setLoginKey] = useState<string>(''); 
+  const [qrimg, setQrimg] = useState<string>(''); 
+  const [isLogin,setIsLogin] =useState<string>('flex')
+  let key =''
   useEffect(() => {
     // console.log(state);
   }, [])
 
   return (
-    <div className={styles.loginBox} style={{ display: state.showLoginBox ? 'flex' : 'none' }}>
+    <div className={styles.loginBox} style={{ display: isLogin }}>
       {/* 头部栏 */}
       <div className='flex justify-between items-center px-2'>
         <span className='text-xl font-bold text-white'>登录</span>
@@ -46,6 +50,7 @@ export default function Login() {
             </label>
           </div>
         </div>
+        <img src={qrimg} alt="" />
       </div>
       {/* 登录方式 */}
       <div className='flex justify-between mt-3 pl-7'>
@@ -57,7 +62,35 @@ export default function Login() {
             <img src={emailIconUrl} className='p-1 w-8' alt="" />
           </li>
         </ul>
-        <div data-tip="扫码登录" className="cursor-pointer tooltip tooltip-left">
+        <div data-tip="扫码登录" className="cursor-pointer tooltip tooltip-left" onClick={() => {        
+          qrKey().then((res: any) => {
+            key =res.data.unikey   
+          }).then(() =>{
+            qrCreate(key).then((res: any) => {
+              setQrimg(res.data.qrimg)
+              
+            })
+          }).then(()=> {
+            let check: any
+            check =  setInterval(() => {
+              qrCheck(key).then((res: any) => {
+                console.log(res);
+                if(res.code == 803){
+                  clearInterval(check)
+                  setIsLogin('none')
+                  document.cookie =res.cookie.slice(0,112)
+                  
+                  console.log(res.cookie);
+                  
+                  console.log(document.cookie);
+                  
+                }
+              })
+            }, 1000);
+        
+          })
+
+        }}>
           <img className='w-14' src={qrCodeUrl} alt="" />
         </div>
       </div>

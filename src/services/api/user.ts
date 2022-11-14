@@ -10,6 +10,15 @@ function cellphoneLogin(params: { phone: string, password: string }) {
   return request({ url: "/login/cellphone", method: 'get', params });
 }
 
+function qrKey(){
+  return get('/login/qr/key',{timestamp:new Date()})
+}
+function qrCreate(key:string){
+  return get('/login/qr/create',{key,qrimg:true,timestamp:new Date()})
+}
+function qrCheck(key:string){
+  return get('/login/qr/check',{key,timestamp:new Date()})
+}
 /**
  * 获取用户详情
  * @param {String} uid
@@ -24,5 +33,8 @@ function getUserDetails(uid: string) {
  */
 export {
   getUserDetails,
-  cellphoneLogin
+  cellphoneLogin,
+  qrKey,
+  qrCreate,
+  qrCheck
 }

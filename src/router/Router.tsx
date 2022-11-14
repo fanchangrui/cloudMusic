@@ -5,7 +5,7 @@ import LayOut from '~/layout/index';
 import Loading from '~/components/Loading/index';
 
 const Hello = lazy(() => import('~/views/Hello/index')); // 欢迎
-const Login = lazy(() => import('~/views/Login')); // 登录
+const Login = lazy(() => import('~/views/Login/index')); // 登录
 const FindMusic = lazy(() => import('~/views/FindMusic/index')); // 发现音乐
 const SingerList = lazy(() => import('~/views/SingerList/index')); // 歌手
 const SongMenuDetails = lazy(() => import('~/views/SongMenuDetails/index')); // 歌单详情
@@ -47,6 +47,10 @@ const InnerRouter = () => {
           path: '/',
           element: <FindMusic />,
           children: [
+            {
+              path:'/login',
+              element:<Login />
+            },
             {
               index: true,
               element: <Recommend />
@@ -98,7 +102,8 @@ const InnerRouter = () => {
     {
       path: '*',
       element: <Loading />
-    }
+    },
+  
   ]
   const element = useRoutes(routes);
 
