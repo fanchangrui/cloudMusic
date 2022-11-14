@@ -64,7 +64,7 @@ export default function Login() {
           </li>
         </ul>
         <div data-tip="扫码登录" className="cursor-pointer tooltip tooltip-left" onClick={() => {        
-          qrKey().then((res: any) => {
+         qrKey().then((res: any) => {
             key =res.data.unikey   
           }).then(() =>{
             qrCreate(key).then((res: any) => {
@@ -79,8 +79,8 @@ export default function Login() {
                 if(res.code == 803){
                   clearInterval(check)
                   setIsLogin('none')
-                  document.cookie =res.cookie.slice(0,112)
-                  
+                 // document.cookie =res.cookie.slice(0,112)
+                  document.cookie =res.cookie.slice(0,22)
                   console.log(res.cookie);
                   
                   console.log(document.cookie);
@@ -89,7 +89,9 @@ export default function Login() {
               })
             }, 1000);
         
-          })
+          }) 
+
+          
 
         }}>
           <img className='w-14' src={qrCodeUrl} alt="" />
