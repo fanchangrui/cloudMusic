@@ -1,5 +1,6 @@
 import axios, { Method } from 'axios';
 
+
 // 环境的切换
 if (import.meta.env.DEV) {
   /* axios.defaults.baseURL = 'http://localhost:4000/'; */
@@ -13,6 +14,8 @@ axios.defaults.timeout = 10000;
 
 // post请求头
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+
+
 
 // 请求拦截器
 axios.interceptors.request.use(
@@ -138,7 +141,7 @@ export function request(config: { url: string, method: Method, params?: any,data
     axios.request({
       url: config.url,
       method: config.method,
-      data: config.method === 'post' ? config.params : '',
+      data: config.method === 'post' ? config.data : '',
       params: config.method === 'get' ? config.params : ''
     })
       .then(res => {

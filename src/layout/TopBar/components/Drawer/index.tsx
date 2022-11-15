@@ -6,6 +6,8 @@ import avatarUrl from '~/assets/images/profile-pic.png';
 // ***************************************************** 导入组件和hooks
 import ShadeBox from '~/components/ShadeBox/index';
 import MenuItem from './MenuItem';
+import { userDetail } from '~/services/api/user';
+import { useAppContext } from '~/context/AppContext';
 
 interface DrawerProps {
   isShow: boolean, // 是否显示
@@ -14,6 +16,8 @@ interface DrawerProps {
 
 const Drawer: FunctionComponent<DrawerProps> = (props) => {
   const drawerRef = useRef<HTMLDivElement>(null);
+  const [username,setUsername] = useState('')
+  const { state,dispatch } = useAppContext();
 
   // ************************************************************ 组件状态
   const [showShade, setShowShade] = useState<boolean>(false);
@@ -41,6 +45,17 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
   let timer2: any = useRef();
 
   useEffect(() => {
+    const uid =state.userId
+    console.log(state);
+    
+    const cookie=localStorage.getItem('cookie')
+    userDetail(uid).then((res:any) =>{
+        if(res.code == 200){
+          setUsername(res.profile.nickname)
+          
+        }
+        
+    })
     if (props.isShow) {
       showDrawerBox();
     } else {
@@ -50,6 +65,7 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
       clearTimeout(timer1);
       clearTimeout(timer2);
     }
+
   }, [props])
 
   // 抽屉隐藏
@@ -88,7 +104,7 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
         <div className={styles.draweProfileBox}>
           <img src={avatarUrl} className="mask mask-circle w-28" />
           <div className='flex items-center space-x-2'>
-            <span className='font-bold'>余生</span>
+            <span className='font-bold'>{username}</span>
             {
               true ? <Male theme="outline" size="22" fill="#4a90e2" />
                 :

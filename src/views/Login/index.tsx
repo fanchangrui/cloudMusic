@@ -5,10 +5,11 @@ import qrCodeUrl from '~/assets/images/qr-code.svg';
 import QQiconUrl from '~/assets/images/QQ-icon.svg';
 import emailIconUrl from '~/assets/images/wyyx-icon.svg';
 // ********************************************************** 图标
-import { Close, Phone, Key } from '@icon-park/react';
+import { Close, Phone, Key, Light } from '@icon-park/react';
 // ********************************************************** 导入组件和hooks
 import { useAppContext } from '~/context/AppContext'
-import {  qrKey,qrCreate,qrCheck } from '~/services/api/user';
+import {  qrKey,qrCreate,qrCheck,qrStatus } from '~/services/api/user';
+import axios from 'axios';
 import { useRequest } from 'ahooks'
 import { cellphoneLogin, getUserDetails } from '~/services/api/user'
 export default function Login() {
@@ -19,14 +20,25 @@ export default function Login() {
   let key =''
   useEffect(() => {
     // console.log(state);
+      const cookie =localStorage.getItem('cookie') ? localStorage.getItem('cookie') :''
+      qrStatus(cookie).then((res:any) =>{
+        if(res.data.account != null){
+          dispatch({ type: 'setShowLoginBox', payload: 'none' })
+        }
+        
+      }) 
+    
   }, [])
 
+
   return (
-    <div className={styles.loginBox} style={{ display: isLogin }}>
+    <div className={styles.loginBox} style={{display:state.showLoginBox }}>
       {/* 头部栏 */}
       <div className='flex justify-between items-center px-2'>
         <span className='text-xl font-bold text-white'>登录</span>
-        <button className='btn btn-ghost btn-sm' onClick={() => { dispatch({ type: 'setShowLoginBox', payload: false }) }}>
+        <button className='btn btn-ghost btn-sm' 
+        onClick={() => { dispatch({ type: 'setShowLoginBox', payload: 'none' }); console.log(state);
+        }}>
           <Close theme="outline" size="24" fill="#fff" />
         </button>
       </div>
@@ -41,7 +53,7 @@ export default function Login() {
           <input type="text" placeholder="请输入密码" className="" />
           <Key className='absolute ml-2' theme="outline" size="18" fill="#bdb5b5" />
         </div>
-        <button className='btn btn-accent text-lg text-white btn-md'>登录</button>
+        <button className='btn btn-accent text-lg text-white btn-md' >只支持扫码登录</button>
         <img src={qrimg} alt="" className={styles.imgpo}/>
         <div className="px-1 mt-3 w-max card ">
           <div className="form-control">
@@ -64,7 +76,7 @@ export default function Login() {
           </li>
         </ul>
         <div data-tip="扫码登录" className="cursor-pointer tooltip tooltip-left" onClick={() => {        
-         qrKey().then((res: any) => {
+            qrKey().then((res: any) => {
             key =res.data.unikey   
           }).then(() =>{
             qrCreate(key).then((res: any) => {
@@ -78,18 +90,23 @@ export default function Login() {
                 console.log(res);
                 if(res.code == 803){
                   clearInterval(check)
-                  setIsLogin('none')
-                 // document.cookie =res.cookie.slice(0,112)
-                  document.cookie =res.cookie.slice(0,22)
-                  console.log(res.cookie);
-                  
-                  console.log(document.cookie);
+                  dispatch({ type: 'setShowLoginBox', payload: 'none' })
+                  localStorage.setItem('cookie',res.cookie)
                   
                 }
+                if (res.code === 800) {
+                  alert('二维码已过期,请重新获取')
+                  clearInterval(check)
+                  setQrimg('')
+                }
               })
-            }, 1000);
+            }, 3000);
         
-          }) 
+          })   
+    
+
+          
+          
 
           
 

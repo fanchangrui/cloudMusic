@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 
 
 interface stateType {
-  showLoginBox?: boolean, // 显示登录盒子
+  showLoginBox?: any, // 显示登录盒子
   showPlayList?: boolean, // 显示当前播放列表
   showDrawer: boolean, // 显示当前的用户信息抽屉
   showMusicDetails?: boolean, // 显示当前音乐的详情页
@@ -12,13 +12,16 @@ interface stateType {
   autoPlay: boolean, // 是否自动播放音乐
   currentVolume: number, // 当前音量
   currentLyric: string, // 当前歌词
-  searchWords: string // 当前搜索关键词
+  searchWords: string ,// 当前搜索关键词
+  cookie:string,
+  userId:number,
+
 }
 /**
  * 全局状态
  */
 const initialState: stateType = {
-  showLoginBox: false,
+  showLoginBox: 'flex',
   showPlayList: false,
   showDrawer: false,
   showMusicDetails: false,
@@ -27,8 +30,10 @@ const initialState: stateType = {
   playSoundId: 1815341568,
   autoPlay: false,
   currentVolume: 70,
-  currentLyric: '歌词',
-  searchWords: ''
+  currentLyric: '歌词2',
+  searchWords: '',
+  cookie:'',
+  userId:1509193343,
 };
 
 /**
@@ -45,7 +50,7 @@ export interface AppContextInterface {
  * @param payload 携带数据
  */
 type ACTIONTYPE =
-  | { type: 'setShowLoginBox'; payload: boolean }
+  | { type: 'setShowLoginBox'; payload: any }
   | { type: 'setShowPlayList'; payload: boolean }
   | { type: 'setShowDrawer'; payload: boolean }
   | { type: 'setShowMusicDetails'; payload: boolean }
@@ -56,7 +61,9 @@ type ACTIONTYPE =
   | { type: 'setCurrentVolume'; playload: number }
   | { type: 'setCurrentLyric'; playload: string }
   | { type: 'setSearchWords'; playload: string }
-  | { type: 'initial' };
+  | { type: 'initial' }
+  | { type: 'setCookie'; payload: string }
+  | { type: 'setUserId'; payload: number }
 
 /**
  * 处理每个action，去操作状态
@@ -121,6 +128,16 @@ function reducer(state: stateType, action: ACTIONTYPE) {
         ...state,
         searchWords: action.playload
       }
+      case 'setCookie':
+        return {
+          ...state,
+          cookie: action.payload
+        }
+        case 'setUserId':
+          return {
+            ...state,
+            userId: action.payload
+          }
     default:
       throw new Error();
   }

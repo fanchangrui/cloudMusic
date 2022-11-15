@@ -1,4 +1,5 @@
-import { request,get } from '../index'
+import { func } from 'prop-types';
+import { request,get ,post} from '../index'
 
 
 /**
@@ -19,6 +20,12 @@ function qrCreate(key:string){
 function qrCheck(key:string){
   return get('/login/qr/check',{key,timestamp:new Date()})
 }
+function qrStatus(cookie:any){
+  return request({url:`/login/status?timerstamp=${Date.now()}`,method:'post',data:{cookie}})
+}
+function userDetail(uid:number){
+  return request({url:`/user/detail`,method:'get',params:{uid}})
+}
 /**
  * 获取用户详情
  * @param {String} uid
@@ -36,5 +43,8 @@ export {
   cellphoneLogin,
   qrKey,
   qrCreate,
-  qrCheck
+  qrCheck,
+  qrStatus,
+  userDetail,
+
 }

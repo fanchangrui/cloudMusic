@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useState,useEffect } from "react";
 import styles from './index.module.css';
 import { useNavigate } from 'react-router-dom';
 // *********************************************导入图标
@@ -7,6 +7,7 @@ import { Platte, Mail, FullScreen, OffScreen, HamburgerButton } from '@icon-park
 import { useFullscreen } from 'ahooks';
 import { useAppContext } from '~/context/AppContext';
 import avatarUrl from '~/assets/images/profile-pic.png';
+import { userDetail } from '~/services/api/user';
 
 interface ActionMenuProps {
 
@@ -14,10 +15,25 @@ interface ActionMenuProps {
 
 const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
   const [isLogin, setIsLogin] = useState(true); // 是否登录
-  const { dispatch } = useAppContext();
-  // *******************************************************
+  const { state,dispatch } = useAppContext();
+  const [username,setUsername] = useState('')
+
   const navigate = useNavigate();
   const [isEnabled, { enterFullscreen, exitFullscreen }] = useFullscreen(document.querySelector('html'));
+
+  useEffect(() => {
+    const uid =state.userId
+    console.log(state);
+    
+    const cookie=localStorage.getItem('cookie')
+    userDetail(uid).then((res:any) =>{
+        if(res.code == 200){
+          setUsername(res.profile.nickname)
+          
+        }
+        
+    })
+  },[])
 
   return (
     <ul className={styles.menuList}>
@@ -64,7 +80,7 @@ const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
         </div>
         {
           isLogin ?
-            <span className="ml-2 mr-1">余生</span>
+            <span className="ml-2 mr-1">{username}</span>
             :
             <button className="btn btn-sm btn-ghost ml-2" onClick={() => { dispatch({ type: 'setShowLoginBox', payload: true }) }}>
               未登录
