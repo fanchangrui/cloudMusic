@@ -16,7 +16,7 @@ interface ActionMenuProps {
 const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
   const [isLogin, setIsLogin] = useState(true); // 是否登录
   const { state,dispatch } = useAppContext();
-  const [username,setUsername] = useState('未登录')
+  const [username,setUsername] = useState('登录')
   const [avatar,setavatar] = useState('http://p1.music.126.net/csVIBCTevOo9mXAtCB4wOw==/109951168062706940.jpg')
 
   const navigate = useNavigate();
@@ -40,11 +40,18 @@ const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
       })
     }
     if(state.showLoginBox =='flex'){
-     setUsername('未登录')
+     setUsername('登录')
      setavatar('http://p1.music.126.net/csVIBCTevOo9mXAtCB4wOw==/109951168062706940.jpg')
     }
  
   },[cookie])
+
+  const login =() =>{
+      if(cookie.length > 0){
+        return
+      }
+      dispatch({ type: 'setShowLoginBox', payload: 'flex' })
+  }
 
   return (
     <ul className={styles.menuList}>
@@ -91,10 +98,10 @@ const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
         </div>
         {
           isLogin ?
-            <span className="ml-2 mr-1">{username}</span>
+            <span className="ml-2 mr-1" onClick={login}>{username}</span>
             :
             <button className="btn btn-sm btn-ghost ml-2" onClick={() => { dispatch({ type: 'setShowLoginBox', payload: true }) }}>
-              未登录
+              登录
             </button>
         }
       </li>

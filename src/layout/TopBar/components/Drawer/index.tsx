@@ -16,7 +16,7 @@ interface DrawerProps {
 
 const Drawer: FunctionComponent<DrawerProps> = (props) => {
   const drawerRef = useRef<HTMLDivElement>(null);
-  const [userInfo,setuserInfo] = useState({nickname:'未登录',follows:0,followeds:0,avatarUrl:'http://p1.music.126.net/csVIBCTevOo9mXAtCB4wOw==/109951168062706940.jpg'})
+  const [userInfo,setuserInfo] = useState({nickname:'登录',follows:0,followeds:0,avatarUrl:'http://p1.music.126.net/csVIBCTevOo9mXAtCB4wOw==/109951168062706940.jpg'})
   const { state,dispatch } = useAppContext();
   const [level,setlevel] = useState(0)
 
