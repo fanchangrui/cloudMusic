@@ -18,9 +18,12 @@ export default function Login() {
   const [qrimg, setQrimg] = useState<string>(''); 
   const [isLogin,setIsLogin] =useState<string>('flex')
   let key =''
+  const cookie =localStorage.getItem('cookie') ||''
   useEffect(() => {
     // console.log(state);
-      const cookie =localStorage.getItem('cookie') ? localStorage.getItem('cookie') :''
+      if(cookie.length >0){
+        dispatch({ type: 'setShowLoginBox', payload: 'none' })
+      }
       
       qrStatus(cookie).then((res:any) =>{
         if(res.data.account != null){
@@ -31,7 +34,7 @@ export default function Login() {
         
       }) 
     
-  }, [state.cookie])
+  }, [cookie])
 
 
   return (

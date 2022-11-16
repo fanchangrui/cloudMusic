@@ -21,7 +21,6 @@ function qrCheck(key:string){
   return get('/login/qr/check',{key,timestamp:new Date()})
 }
 function qrStatus(cookie:any){
-  console.log(111,cookie);
   return request({url:`/login/status?timerstamp=${Date.now()}`,method:'post',data:{cookie}})
 }
 function userDetail(uid:number,cookie:any){
