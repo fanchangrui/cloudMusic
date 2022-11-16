@@ -21,7 +21,7 @@ const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
 
   const navigate = useNavigate();
   const [isEnabled, { enterFullscreen, exitFullscreen }] = useFullscreen(document.querySelector('html'));
-  const cookie=localStorage.getItem('cookie') ? localStorage.getItem('cookie') : ''
+  const cookie=localStorage.getItem('cookie') || ''
 
   useEffect(() => {
     const uid =state.userId
