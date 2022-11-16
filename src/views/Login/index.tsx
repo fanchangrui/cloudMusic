@@ -24,7 +24,9 @@ export default function Login() {
       qrStatus(cookie).then((res:any) =>{
         if(res.data.account != null){
           dispatch({ type: 'setShowLoginBox', payload: 'none' })
+          dispatch({ type: 'setUserId', payload: res.data.profile.userId })
         }
+
         
       }) 
     
