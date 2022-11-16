@@ -32,6 +32,9 @@ function logout(cookie:any){
 function subcount(cookie:any){
   return get('/user/subcount',{cookie})
 }
+function playlist(uid:number,cookie:any){
+  return get('/user/subcount',{uid,cookie})
+}
 /**
  * 获取用户详情
  * @param {String} uid
@@ -54,5 +57,8 @@ export {
   userDetail,
   logout,
   subcount,
+  playlist,
+  
+
 
 }

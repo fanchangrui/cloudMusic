@@ -44,7 +44,7 @@ const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
      setavatar('http://p1.music.126.net/csVIBCTevOo9mXAtCB4wOw==/109951168062706940.jpg')
     }
  
-  },[cookie])
+  },[cookie,state.userId])
 
   const login =() =>{
       if(cookie.length > 0){

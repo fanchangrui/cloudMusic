@@ -33,7 +33,7 @@ const initialState: stateType = {
   currentLyric: '歌词2',
   searchWords: '',
   cookie:'',
-  userId:1509193343,
+  userId:0,
 };
 
 /**
