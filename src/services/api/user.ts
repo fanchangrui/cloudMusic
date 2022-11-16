@@ -21,13 +21,17 @@ function qrCheck(key:string){
   return get('/login/qr/check',{key,timestamp:new Date()})
 }
 function qrStatus(cookie:any){
+  console.log(111,cookie);
   return request({url:`/login/status?timerstamp=${Date.now()}`,method:'post',data:{cookie}})
 }
-function userDetail(uid:number){
-  return request({url:`/user/detail`,method:'get',params:{uid}})
+function userDetail(uid:number,cookie:any){
+  return request({url:`/user/detail?cookie=${cookie}`,method:'get',params:{uid}})
 }
 function logout(cookie:any){
   return get('/logout',{cookie})
+}
+function subcount(cookie:any){
+  return get('/user/subcount',{cookie})
 }
 /**
  * 获取用户详情
@@ -50,6 +54,6 @@ export {
   qrStatus,
   userDetail,
   logout,
-  
+  subcount,
 
 }

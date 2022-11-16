@@ -21,14 +21,16 @@ const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
 
   const navigate = useNavigate();
   const [isEnabled, { enterFullscreen, exitFullscreen }] = useFullscreen(document.querySelector('html'));
+  const cookie=localStorage.getItem('cookie') ? localStorage.getItem('cookie') : ''
 
   useEffect(() => {
     const uid =state.userId
     console.log(state);
-    
-    if(state.showLoginBox =='none'){
-      const cookie=localStorage.getItem('cookie')
-      userDetail(uid).then((res:any) =>{
+    if(cookie.length > 0){
+      
+      userDetail(uid,cookie).then((res:any) =>{
+        console.log(state);
+        
           if(res.code == 200){
             setUsername(res.profile.nickname)
             setavatar(res.profile.avatarUrl)
@@ -42,7 +44,7 @@ const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
      setavatar('http://p1.music.126.net/csVIBCTevOo9mXAtCB4wOw==/109951168062706940.jpg')
     }
  
-  },[state.showLoginBox])
+  },[cookie])
 
   return (
     <ul className={styles.menuList}>

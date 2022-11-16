@@ -31,14 +31,13 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
 
   let timer1: any = useRef();
   let timer2: any = useRef();
+  const cookie=localStorage.getItem('cookie') || ''
 
   useEffect(() => {
     const uid =state.userId
-    console.log(state);
     
-    if(state.showLoginBox =='none'){
-      const cookie=localStorage.getItem('cookie')
-      userDetail(uid).then((res:any) =>{
+    if(cookie.length > 0){
+      userDetail(uid,cookie).then((res:any) =>{
           if(res.code == 200){
             setuserInfo(res.profile)
             setlevel(res.level)
@@ -57,7 +56,7 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
       clearTimeout(timer2);
     }
 
-  }, [props])
+  }, [props,cookie])
 
   // 抽屉隐藏
   const hideDrawerBox = () => {
@@ -86,6 +85,7 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
           localStorage.removeItem('cookie')
           dispatch({ type: 'setShowLoginBox', payload: 'flex' })
           dispatch({ type: 'setShowDrawer', payload: false })
+          dispatch({ type: 'setCookie', payload: '' })
           setuserInfo({nickname:'',follows:0,followeds:0,avatarUrl:'http://p1.music.126.net/csVIBCTevOo9mXAtCB4wOw==/109951168062706940.jpg'})
           setlevel(0)
         }

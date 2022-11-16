@@ -21,6 +21,7 @@ export default function Login() {
   useEffect(() => {
     // console.log(state);
       const cookie =localStorage.getItem('cookie') ? localStorage.getItem('cookie') :''
+      
       qrStatus(cookie).then((res:any) =>{
         if(res.data.account != null){
           dispatch({ type: 'setShowLoginBox', payload: 'none' })
@@ -30,7 +31,7 @@ export default function Login() {
         
       }) 
     
-  }, [])
+  }, [state.cookie])
 
 
   return (
@@ -93,6 +94,7 @@ export default function Login() {
                 if(res.code == 803){
                   clearInterval(check)
                   dispatch({ type: 'setShowLoginBox', payload: 'none' })
+                  dispatch({ type: 'setCookie', payload: res.cookie })
                   localStorage.setItem('cookie',res.cookie)
                   
                 }

@@ -1,6 +1,8 @@
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { Performance, Down, Plus, Like, Concern } from '@icon-park/react'; // 导入图标
 import { useNavigate } from 'react-router-dom';
+import { subcount } from '~/services/api/user';
+import { useAppContext } from '~/context/AppContext';
 interface SideBarProps {
 
 }
@@ -10,6 +12,7 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
   const menuList = useRef<string[]>(['发现音乐', '博客', '视频', '关注', '直播', '私人FM']); // 菜单列表数据
   const [activeMenu, setActiveMenu] = useState<'发现音乐' | '博客' | '视频' | '关注' | '直播' | '私人FM'>('发现音乐'); // 当前活动的菜单
   const navigate = useNavigate(); // 使用路由导航
+  const { state,dispatch } = useAppContext();
   /**
    * 处理每个菜单的点击
    * @param name 
@@ -42,7 +45,17 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
   /**
    * 控制路由
    */
-  useEffect(() => { }, [activeMenu])
+  useEffect(() => { 
+    if(state.cookie.length > 0){
+      const cookie=localStorage.getItem('cookie')
+      subcount(cookie).then((res:any) =>{
+          if(res.code == 200){
+
+          }
+          
+      })
+    }
+  }, [activeMenu,state.cookie])
   
   return (
     <div className="border-r-2 border-gray-600 p-3 w-56" style={{ userSelect: 'none' }}>
