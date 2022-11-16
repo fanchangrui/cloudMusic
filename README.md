@@ -3,6 +3,7 @@
 > 仿网易云客户端的在线WebAPP
 > * 技术栈: React+TypeScript+Vite+TailwindCSS ✨
 > * 描述🔧:前端无组件库，独立封装自定义组件。后端采用github开源项目--NeteaseCloudMusicApi，提供api服务<br/>
+> * 线上地址：https://cloud-music-ashen.vercel.app/ (代理访问)
 
 
 ### 启动项目
