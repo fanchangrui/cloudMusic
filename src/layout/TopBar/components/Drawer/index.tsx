@@ -6,7 +6,7 @@ import avatarUrl from '~/assets/images/profile-pic.png';
 // ***************************************************** 导入组件和hooks
 import ShadeBox from '~/components/ShadeBox/index';
 import MenuItem from './MenuItem';
-import { userDetail } from '~/services/api/user';
+import { userDetail ,logout} from '~/services/api/user';
 import { useAppContext } from '~/context/AppContext';
 
 interface DrawerProps {
@@ -16,8 +16,9 @@ interface DrawerProps {
 
 const Drawer: FunctionComponent<DrawerProps> = (props) => {
   const drawerRef = useRef<HTMLDivElement>(null);
-  const [username,setUsername] = useState('')
+  const [userInfo,setuserInfo] = useState({nickname:'未登录',follows:0,followeds:0,avatarUrl:'http://p1.music.126.net/csVIBCTevOo9mXAtCB4wOw==/109951168062706940.jpg'})
   const { state,dispatch } = useAppContext();
+  const [level,setlevel] = useState(0)
 
   // ************************************************************ 组件状态
   const [showShade, setShowShade] = useState<boolean>(false);
@@ -26,20 +27,7 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
     amount: number,
     name: '动态' | '关注' | '粉丝'
   }
-  const [userInfo, setUserInfo] = useState<infoItem[]>([
-    {
-      amount: 2,
-      name: '动态'
-    },
-    {
-      amount: 19,
-      name: '关注'
-    },
-    {
-      amount: 5,
-      name: '粉丝'
-    }
-  ]);
+ 
 
   let timer1: any = useRef();
   let timer2: any = useRef();
@@ -48,14 +36,17 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
     const uid =state.userId
     console.log(state);
     
-    const cookie=localStorage.getItem('cookie')
-    userDetail(uid).then((res:any) =>{
-        if(res.code == 200){
-          setUsername(res.profile.nickname)
+    if(state.showLoginBox =='none'){
+      const cookie=localStorage.getItem('cookie')
+      userDetail(uid).then((res:any) =>{
+          if(res.code == 200){
+            setuserInfo(res.profile)
+            setlevel(res.level)
+          }
           
-        }
-        
-    })
+      })
+    }
+ 
     if (props.isShow) {
       showDrawerBox();
     } else {
@@ -88,6 +79,19 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
     }, 100)
   }
 
+  const loginOut =() =>{
+      const cookie =localStorage.getItem('cookie')
+      logout(cookie).then((res:any) =>{
+        if(res.code ==200){
+          localStorage.removeItem('cookie')
+          dispatch({ type: 'setShowLoginBox', payload: 'flex' })
+          dispatch({ type: 'setShowDrawer', payload: false })
+          setuserInfo({nickname:'',follows:0,followeds:0,avatarUrl:'http://p1.music.126.net/csVIBCTevOo9mXAtCB4wOw==/109951168062706940.jpg'})
+          setlevel(0)
+        }
+      })
+  }
+
   // 点击遮罩层
 
   return (
@@ -102,9 +106,9 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
       <div className={styles.drawerBox} ref={drawerRef}>
         {/* 头像，用户名,性别 */}
         <div className={styles.draweProfileBox}>
-          <img src={avatarUrl} className="mask mask-circle w-28" />
+          <img src={userInfo.avatarUrl} className="mask mask-circle w-28" />
           <div className='flex items-center space-x-2'>
-            <span className='font-bold'>{username}</span>
+            <span className='font-bold'>{userInfo.nickname}</span>
             {
               true ? <Male theme="outline" size="22" fill="#4a90e2" />
                 :
@@ -114,16 +118,24 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
         </div>
         {/* 动态、关注、粉丝 */}
         <ul className='flex space-x-12 justify-center py-6'>
-          {
-            userInfo.map((item: infoItem) => {
-              return (
-                <li key={item.name} className='flex flex-col text-gray-300 hover:text-white items-center cursor-pointer'>
-                  <span className='font-bold text-xl'>{item.amount}</span>
-                  <span>{item.name}</span>
+          
+       
+              
+                <li  className='flex flex-col text-gray-300 hover:text-white items-center cursor-pointer'>
+                  <span className='font-bold text-xl'>关注</span>
+                  <span>{userInfo.follows}</span>
                 </li>
-              )
-            })
-          }
+                <li  className='flex flex-col text-gray-300 hover:text-white items-center cursor-pointer'>
+                  <span className='font-bold text-xl'>粉丝</span>
+                  <span>{userInfo.followeds}</span>
+                </li>
+                <li  className='flex flex-col text-gray-300 hover:text-white items-center cursor-pointer'>
+                  <span className='font-bold text-xl'>等级</span>
+                  <span>Lv{level}</span>
+                </li>
+              
+            
+          
         </ul>
         {/* 签到按钮 */}
         <div className='flex justify-center'>
@@ -151,7 +163,8 @@ const Drawer: FunctionComponent<DrawerProps> = (props) => {
           <MenuItem name='我的客服' />
         </ul>
         {/* 退出登录 */}
-        <div className='flex justify-between items-center rounded-sm px-10 py-4 cursor-pointer hover:bg-gray-600'>
+        <div className='flex justify-between items-center rounded-sm px-10 py-4 cursor-pointer hover:bg-gray-600'
+        onClick={loginOut}>
           <Power theme="outline" size="24" fill="#ffffff" />
           <span className='flex-1 ml-5'>退出登录</span>
         </div>

@@ -16,7 +16,8 @@ interface ActionMenuProps {
 const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
   const [isLogin, setIsLogin] = useState(true); // 是否登录
   const { state,dispatch } = useAppContext();
-  const [username,setUsername] = useState('')
+  const [username,setUsername] = useState('未登录')
+  const [avatar,setavatar] = useState('http://p1.music.126.net/csVIBCTevOo9mXAtCB4wOw==/109951168062706940.jpg')
 
   const navigate = useNavigate();
   const [isEnabled, { enterFullscreen, exitFullscreen }] = useFullscreen(document.querySelector('html'));
@@ -25,15 +26,23 @@ const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
     const uid =state.userId
     console.log(state);
     
-    const cookie=localStorage.getItem('cookie')
-    userDetail(uid).then((res:any) =>{
-        if(res.code == 200){
-          setUsername(res.profile.nickname)
+    if(state.showLoginBox =='none'){
+      const cookie=localStorage.getItem('cookie')
+      userDetail(uid).then((res:any) =>{
+          if(res.code == 200){
+            setUsername(res.profile.nickname)
+            setavatar(res.profile.avatarUrl)
+            
+          }
           
-        }
-        
-    })
-  },[])
+      })
+    }
+    if(state.showLoginBox =='flex'){
+     setUsername('未登录')
+     setavatar('http://p1.music.126.net/csVIBCTevOo9mXAtCB4wOw==/109951168062706940.jpg')
+    }
+ 
+  },[state.showLoginBox])
 
   return (
     <ul className={styles.menuList}>
@@ -75,7 +84,7 @@ const ActionMenu: FunctionComponent<ActionMenuProps> = () => {
       <li>
         <div className="avatar online">
           <div className="w-10 h-10 mask mask-squircle">
-            <img src={avatarUrl} />
+            <img src={avatar} />
           </div>
         </div>
         {

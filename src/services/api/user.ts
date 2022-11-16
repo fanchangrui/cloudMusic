@@ -26,6 +26,9 @@ function qrStatus(cookie:any){
 function userDetail(uid:number){
   return request({url:`/user/detail`,method:'get',params:{uid}})
 }
+function logout(cookie:any){
+  return get('/logout',{cookie})
+}
 /**
  * 获取用户详情
  * @param {String} uid
@@ -46,5 +49,7 @@ export {
   qrCheck,
   qrStatus,
   userDetail,
+  logout,
+  
 
 }
