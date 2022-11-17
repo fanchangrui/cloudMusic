@@ -21,7 +21,7 @@ const Hello: FunctionComponent<HelloProps> = () => {
 
   return (
     <div className="text-center">
-      你好世界！
+      敬请期待！
     </div>
   );
 }

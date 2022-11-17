@@ -29,11 +29,8 @@ function userDetail(uid:number,cookie:any){
 function logout(cookie:any){
   return get('/logout',{cookie})
 }
-function subcount(cookie:any){
-  return get('/user/subcount',{cookie})
-}
 function playlist(uid:number,cookie:any){
-  return get('/user/subcount',{uid,cookie})
+  return get(`/user/playlist?timerstamp=${Date.now()}`,{uid,cookie})
 }
 /**
  * 获取用户详情
@@ -56,7 +53,6 @@ export {
   qrStatus,
   userDetail,
   logout,
-  subcount,
   playlist,
   
 

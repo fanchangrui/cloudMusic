@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { Performance, Down, Plus, Like, Concern } from '@icon-park/react'; // 导入图标
 import { useNavigate } from 'react-router-dom';
-import { subcount,playlist } from '~/services/api/user';
+import { playlist } from '~/services/api/user';
 import { useAppContext } from '~/context/AppContext';
 interface SideBarProps {
 
@@ -14,6 +14,7 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
   const navigate = useNavigate(); // 使用路由导航
   const { state,dispatch } = useAppContext();
   const cookie =localStorage.getItem('cookie') || ''
+  const [songList,setSongList] =useState([])
   /**
    * 处理每个菜单的点击
    * @param name 
@@ -48,9 +49,11 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
    */
   useEffect(() => { 
     if(cookie.length > 0){
-      playlist(state.userId,cookie).then((res:any) =>{
+      playlist(state.userId,cookie).then((res:any) =>{      
           if(res.code == 200){
-
+            setSongList(res.playlist)
+            console.log(songList,res.playlist);
+            
           }
           
       })
@@ -88,6 +91,17 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
         <Down className='flex-1' theme="outline" size="16" fill="#ffffff" />
         <Plus theme="outline" size="19" fill="#ffffff" />
       </div>
+      <ul>
+        {songList.map((item:{name:''},index) =>{
+            return(
+              <li key={index} className='flex items-center space-x-2 p-2 hover:bg-gray-500 cursor-pointer rounded-md'>
+              <span key={index}>{item.name}</span>
+            </li>
+            )
+            
+        })}
+      
+      </ul>
       <ul>
         <li className='flex items-center justify-between p-2 cursor-pointer hover:bg-gray-500 rounded-md'>
           <Like theme="outline" size="18" fill="#ffffff" />
