@@ -1,8 +1,10 @@
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { Performance, Down, Plus, Like, Concern } from '@icon-park/react'; // 导入图标
 import { useNavigate } from 'react-router-dom';
-import { playlist } from '~/services/api/user';
+import { playlist,likelist } from '~/services/api/user';
+import { getMusicDetailMore } from '~/services/api/music';
 import { useAppContext } from '~/context/AppContext';
+import axios from "axios";
 interface SideBarProps {
 
 }
@@ -15,6 +17,7 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
   const { state,dispatch } = useAppContext();
   const cookie =localStorage.getItem('cookie') || ''
   const [songList,setSongList] =useState([])
+  const [songFaList,setSongFaList] =useState([])
   /**
    * 处理每个菜单的点击
    * @param name 
@@ -51,12 +54,22 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
     if(cookie.length > 0){
       playlist(state.userId,cookie).then((res:any) =>{      
           if(res.code == 200){
-            setSongList(res.playlist)
-            console.log(songList,res.playlist);
+            setSongList(res.playlistslice(0,3))
             
           }
           
       })
+      async function getSongs() {
+        const res:{ids:[]} =await likelist(state.userId,cookie)   
+        const  songName:{songs:[]} =await getMusicDetailMore(res.ids)
+        
+        setSongFaList(songName.songs.slice(0,3))
+
+        
+      }
+      getSongs()
+    
+ 
     }
   }, [activeMenu,cookie])
   
@@ -94,7 +107,7 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
       <ul>
         {songList.map((item:{name:''},index) =>{
             return(
-              <li key={index} className='flex items-center space-x-2 p-2 hover:bg-gray-500 cursor-pointer rounded-md'>
+              <li key={index} className='flex items-center space-x-2 p-2 hover:bg-gray-500 cursor-pointer rounded-md' style={{color:'#9CA3AF'}}>
               <span key={index}>{item.name}</span>
             </li>
             )
@@ -110,6 +123,16 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
             <Concern theme="outline" size="20" fill="#ffffff" />
           </button>
         </li>
+      </ul>
+      <ul>
+        {songFaList.map((item:{name:''},index) =>{
+            return(
+              <li key={index} className='flex items-center space-x-2 p-2 hover:bg-gray-500 cursor-pointer rounded-md' style={{color:'#9CA3AF'}}>
+              <span key={index}>{item.name}</span>
+            </li>
+            )
+            
+        })}
       </ul>
     </div>
   );

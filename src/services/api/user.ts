@@ -32,6 +32,9 @@ function logout(cookie:any){
 function playlist(uid:number,cookie:any){
   return get(`/user/playlist?timerstamp=${Date.now()}`,{uid,cookie})
 }
+function likelist(uid:number,cookie:any):any{
+  return get(`/likelist?timerstamp=${Date.now()}`,{uid,cookie})
+}
 /**
  * 获取用户详情
  * @param {String} uid
@@ -54,7 +57,6 @@ export {
   userDetail,
   logout,
   playlist,
-  
-
+  likelist,
 
 }

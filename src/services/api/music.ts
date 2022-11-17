@@ -4,10 +4,10 @@ import { post, get } from '../index';
  * 获取音乐url
  * @param id 音乐id
  */
-function getMusic(id: number) {
+
+function getMusic(id: number):any {
   return get("/song/url", { id,realIP:'116.25.146.177' });
 }
-
 /**
  * 获取歌词
  * @param id 音乐id
@@ -24,10 +24,15 @@ function getLyric(id:number) {
 function getMusicDetail(id:number) {
   return get('/song/detail', {ids:id})
 }
+function getMusicDetailMore(id: []):any {
+  return get("/song/detail", { ids:id+''});
+}
 
 
 export {
   getMusic,
   getLyric,
-  getMusicDetail
+  getMusicDetail,
+  getMusicDetailMore,
+
 }
