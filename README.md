@@ -13,6 +13,7 @@
 * 启动成功之后，地址栏输入url访问应用 `http://localhost:3000`
 ### 注意事项
 * 本仓库代码只是项目的前台界面部分，还另需外的后台api服务搭配使用，这里使用的开源项目`NeteaseCloudMusicApi`，请访问仓库地址然后自行clone或者下载到本地安装运行。<br>
+* 因为安全原因登录只使用扫码登录。  
 **后台仓库地址：https://github.com/Binaryify/NeteaseCloudMusicApi**
 ### 页面展示
 ![图片](https://github.com/fanchangrui/cloudMusic/blob/main/src/assets/index.png)
