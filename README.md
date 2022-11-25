@@ -15,5 +15,5 @@
 * 本仓库代码只是项目的前台界面部分，还另需外的后台api服务搭配使用，这里使用的开源项目`NeteaseCloudMusicApi`，请访问仓库地址然后自行clone或者下载到本地安装运行。<br>
 **后台仓库地址：https://github.com/Binaryify/NeteaseCloudMusicApi**
 ### 页面展示
-![图片](https://raw.githubusercontent.com/fanchangrui/admin-system//src/index.png)
+![图片](https://fanchangrui/cloudMusic/src/index.png)
 
